@@ -9,6 +9,7 @@ const camOffset = {x:60*500/canvas.height,y:450*500/canvas.height};
 let mousePositionMeters = {x:0,y:0};
 let degreesToRadians = Math.PI/180;
 
+const rect = canvas.getBoundingClientRect();
 
 
 let stageOneAngle = 0;
@@ -46,11 +47,11 @@ function drawArms(){
     ctx.beginPath();
     ctx.strokeStyle = "white";
     ctx.moveTo(metersToPixels(0,0).x,metersToPixels(0,0).y);
-    let firstStageEndMeters = {x:armConstants.stageOneLength*Math.cos(stageOneAngle),y:armConstants.stageOneLength*Math.sin(stageOneAngle)};
+    let firstStageEndMeters = {x:stageOneLength*Math.cos(stageOneAngle),y:stageOneLength*Math.sin(stageOneAngle)};
     let firstStageEndPixels = metersToPixels(firstStageEndMeters.x,firstStageEndMeters.y);
     ctx.lineTo(firstStageEndPixels.x,firstStageEndPixels.y);
 
-    let secondStageEndMeters = {x:firstStageEndMeters.x+armConstants.stageTwoLength*Math.cos(stageOneAngle+stageTwoAngle-Math.PI),y:firstStageEndMeters.y+armConstants.stageTwoLength*Math.sin(stageOneAngle+stageTwoAngle-Math.PI)};
+    let secondStageEndMeters = {x:firstStageEndMeters.x+stageTwoLength*Math.cos(stageOneAngle+stageTwoAngle-Math.PI),y:firstStageEndMeters.y+stageTwoLength*Math.sin(stageOneAngle+stageTwoAngle-Math.PI)};
     let secondStageEndPixels = metersToPixels(secondStageEndMeters.x,secondStageEndMeters.y);
     ctx.lineTo(secondStageEndPixels.x,secondStageEndPixels.y);
 
@@ -76,7 +77,7 @@ function drawArms(){
 
 //mousemove event
 canvas.addEventListener("mousedown",function(e){
-    mousePositionMeters = pixelsToMeters(e.clientX,e.clientY);
+    mousePositionMeters = pixelsToMeters(e.clientX - rect.x,e.clientY - rect.y);
 });
 
 function pixelsToMeters(x, y){

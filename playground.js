@@ -1,5 +1,5 @@
-const armConstants = {stageOneLength: 0.7303, stageTwoLength: 0.7303};
-
+const stageOneLength= 0.7303
+const stageTwoLength =  0.7303;
 
 function calculateEFPosition(ang1,ang2){
 
