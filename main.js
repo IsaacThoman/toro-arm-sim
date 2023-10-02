@@ -20,18 +20,18 @@ function onFrame(){
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     //draw a crosshair on the origin
-    drawCrosshair("red",0,0);
+    drawCrosshair("#ff0000",0,0);
 
     //draw crosshair on last click
-    drawCrosshair("blue",mousePositionMeters.x,mousePositionMeters.y);
+    drawCrosshair("#0000ff",mousePositionMeters.x,mousePositionMeters.y);
 
     //draw crosshair on calculated end effector position
-    drawCrosshair("green",calculateEFPosition(stageOneAngle,stageTwoAngle).x,calculateEFPosition(stageOneAngle,stageTwoAngle).y);
+    drawCrosshair("#00ff00",calculateEFPosition(stageOneAngle,stageTwoAngle).x,calculateEFPosition(stageOneAngle,stageTwoAngle).y);
 
     let desiredAngles = calculateArmAngles(mousePositionMeters.x,mousePositionMeters.y);
     if(!isNaN(desiredAngles.stageOne) && !isNaN(desiredAngles.stageTwo)){
-        stageOneAngle = stageOneAngle + (desiredAngles.stageOne - stageOneAngle)* 0.05;
-        stageTwoAngle = stageTwoAngle + (desiredAngles.stageTwo - stageTwoAngle)* 0.05;
+        stageOneAngle = stageOneAngle + (desiredAngles.stageOne - stageOneAngle)* 0.8;
+        stageTwoAngle = stageTwoAngle + (desiredAngles.stageTwo - stageTwoAngle)* 0.8;
     }
 
 
@@ -76,7 +76,7 @@ function drawArms(){
 
 
 //mousemove event
-canvas.addEventListener("mousedown",function(e){
+canvas.addEventListener("mousemove",function(e){
     mousePositionMeters = pixelsToMeters(e.clientX - rect.x,e.clientY - rect.y);
 });
 
