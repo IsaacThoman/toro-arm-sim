@@ -11,6 +11,8 @@ let degreesToRadians = Math.PI/180;
 
 const rect = canvas.getBoundingClientRect();
 
+let dots = [];
+
 
 let stageOneAngle = 0;
 let stageTwoAngle = Math.PI;
@@ -30,18 +32,36 @@ function onFrame(){
 
     let desiredAngles = calculateArmAngles(mousePositionMeters.x,mousePositionMeters.y);
     if(!isNaN(desiredAngles.stageOne) && !isNaN(desiredAngles.stageTwo)){
-        stageOneAngle = stageOneAngle + (desiredAngles.stageOne - stageOneAngle)* 0.05;
-        stageTwoAngle = stageTwoAngle + (desiredAngles.stageTwo - stageTwoAngle)* 0.05;
+        stageOneAngle = stageOneAngle + (desiredAngles.stageOne - stageOneAngle)* kP;
+        stageTwoAngle = stageTwoAngle + (desiredAngles.stageTwo - stageTwoAngle)* kP;
     }
 
+    drawDots();
 
     //line from ef to last click
     drawArms();
+    drawKnots();
 
     requestAnimationFrame(onFrame);
 }
 requestAnimationFrame(onFrame);
 
+function drawDots(){
+    dots.push({x:calculateEFPosition(stageOneAngle,stageTwoAngle).x,y:calculateEFPosition(stageOneAngle,stageTwoAngle).y});
+    for(let i = 0; i < dots.length; i++){
+        ctx.fillStyle = "#ff00ff";
+        ctx.fillRect(metersToPixels(dots[i].x,dots[i].y).x,metersToPixels(dots[i].x,dots[i].y).y,1,1);
+    }
+    if(dots.length > 600){
+        dots.shift();
+    }
+}
+
+function drawKnots(){
+    drawCrosshair("#ff0000",0.19,0.03);
+    drawCrosshair("#ff0000",0.64,0.91);
+    drawCrosshair("#ff0000",1.19,0.79);
+}
 
 function drawArms(){
     ctx.beginPath();
